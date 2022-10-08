@@ -1,3 +1,37 @@
+@media (max-width: 767px) {
+  .barsMenu {
+    display: inline-block;
+  }
+  .ant-layout-sider {
+    display: none;
+  }
+  .logo a {
+    margin-left: -20px;
+  }
+  .menuCon .ant-menu-item,
+  .menuCon .ant-menu-submenu-title {
+    padding: 1px 20px;
+  }
+  .logo a {
+    padding: 10px 20px;
+  }
+}
+.ant-layout-header .logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.ant-row-rtl #components-layout-demo-top-side-2 .logo {
+  float: right;
+  margin: 16px 0 16px 24px;
+}
+
+.site-layout-background {
+  background: #fff;
+}
 .App {
   text-align: center;
 }
