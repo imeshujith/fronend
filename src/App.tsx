@@ -8,7 +8,7 @@ import "./styles/style.less";
 import Dashboard from "./pages/Dashboard";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:8081";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.headers["Content-Type"] = "application/json";
 
 axios.interceptors.request.use(
