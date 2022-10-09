@@ -56,13 +56,17 @@ const TableComponent: FC<Props> = ({
       okText: "Delete",
       async onOk() {
         setIsLoading(true);
-        const response: any = await deleteEmployee(id);
-        if (response.status === 204) {
-          setEmployees(
-            dataSource.filter((element: Employee) => element.id != id)
-          );
-          setIsLoading(false);
-          message.success("Employee deleted successful");
+        try {
+          const response: any = await deleteEmployee(id);
+          if (response.status === 204) {
+            setEmployees(
+              dataSource.filter((element: Employee) => element.id !== id)
+            );
+            setIsLoading(false);
+            message.success("Employee deleted successful");
+          }
+        } catch (e) {
+          message.error("Server error please try again later");
         }
       },
       cancelText: "Cancel",

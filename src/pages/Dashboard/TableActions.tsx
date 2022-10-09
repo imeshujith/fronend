@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import {ClearOutlined, FilterOutlined, UploadOutlined} from "@ant-design/icons";
-import {Button, Space} from "antd";
+import {Button, message, Space} from "antd";
 import {Employee} from "../../types/Types";
 import {fetchEmployees} from "./Api";
 
@@ -21,15 +21,24 @@ const TableActions: FC<Props> = ({
                                    ...rest
                                  }) => {
     const handleFilter = async () => {
-      const allEmployeesResponse: any = await fetchEmployees();
-      setEmployees(allEmployeesResponse.data);
-      setOpenFilterModal(true)
+      try {
+        const allEmployeesResponse: any = await fetchEmployees();
+        setEmployees(allEmployeesResponse.data);
+        setOpenFilterModal(true)
+      } catch (e) {
+        message.error("Server error please try again later")
+      }
+
     };
 
     const handleReset = async () => {
-      const allEmployeesResponse: any = await fetchEmployees();
-      setEmployees(allEmployeesResponse.data);
-      setOpenFilterModal(false)
+      try{
+        const allEmployeesResponse: any = await fetchEmployees();
+        setEmployees(allEmployeesResponse.data);
+        setOpenFilterModal(false)
+      } catch (e) {
+        message.error("Server error please try again later")
+      }
     };
 
     return (

@@ -1,7 +1,9 @@
 import React, { FC } from "react";
 import MenuComponent from "../components/Menu";
 import { DashboardOutlined } from "@ant-design/icons";
-import Sider from "antd/es/layout/Sider";
+import { Layout } from "antd";
+
+const { Sider } = Layout;
 
 const SidebarComponent: FC = () => {
   return (

@@ -45,11 +45,15 @@ const FilterModal: React.FC<Props> = ({
 
   const handleCancel = async () => {
     setConfirmLoading(true);
-    const allEmployeesResponse: any = await fetchEmployees();
-    setEmployees(allEmployeesResponse.data);
-    setConfirmLoading(false);
-    setIsModalOpen(false);
-    setOpenFilterModal(false);
+    try {
+      const allEmployeesResponse: any = await fetchEmployees();
+      setEmployees(allEmployeesResponse.data);
+      setConfirmLoading(false);
+      setIsModalOpen(false);
+      setOpenFilterModal(false);
+    } catch (e) {
+      message.error("Server error please try again later");
+    }
   };
 
   const onFinish = () => {

@@ -38,11 +38,15 @@ const EditModal: React.FC<Props> = ({
 
   const onFinish = async () => {
     const updateResponse: any = await updateEmployeeService(updateEmployee);
-    if (updateResponse.status == 204) {
-      const allEmployeesResponse: any = await fetchEmployees();
-      setEmployees(allEmployeesResponse.data);
-      setIsModalOpen(false);
-      message.success("Employee updated successful");
+    if (updateResponse.status === 204) {
+      try {
+        const allEmployeesResponse: any = await fetchEmployees();
+        setEmployees(allEmployeesResponse.data);
+        setIsModalOpen(false);
+        message.success("Employee updated successful");
+      } catch (e) {
+        message.error("Server error please try again later");
+      }
     }
   };
 
@@ -54,7 +58,7 @@ const EditModal: React.FC<Props> = ({
         onOk={handleOk}
         footer={
           <Space>
-            <Button type="default" onClick={() => setIsModalOpen(false)}>
+            <Button type="default" onClick={handleCancel}>
               Cancel
             </Button>
             <Button

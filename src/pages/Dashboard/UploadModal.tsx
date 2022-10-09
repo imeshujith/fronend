@@ -1,7 +1,7 @@
 import { Button, Form, message, Modal, ModalProps, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { Employee } from "../../types/Types";
-import { uploadEmployees } from "./Api";
+import { fetchEmployees, uploadEmployees } from "./Api";
 import { parse } from "papaparse";
 
 interface Props extends ModalProps {
@@ -24,7 +24,6 @@ const UploadModal: React.FC<Props> = ({
     { id: "", login: "", name: "", salary: 0 },
   ]);
   const [form] = Form.useForm();
-  const ref = React.useRef();
 
   useEffect(() => {
     setIsModalOpen(openUploadModal);
@@ -106,11 +105,21 @@ const UploadModal: React.FC<Props> = ({
 
   const onFinish = async () => {
     setConfirmLoading(true);
-    const response: any = await uploadEmployees(uploadData);
-    setEmployees(response.data);
-    setConfirmLoading(false);
-    setOpenUploadModal(false);
-    setIsModalOpen(false);
+    try {
+      const response: any = await uploadEmployees(uploadData);
+      if (response.status === 201) {
+        const allEmployeesResponse: any = await fetchEmployees();
+        setEmployees(allEmployeesResponse.data);
+      }
+      setConfirmLoading(false);
+      setOpenUploadModal(false);
+      setIsModalOpen(false);
+    } catch (e) {
+      setConfirmLoading(false);
+      setOpenUploadModal(false);
+      setIsModalOpen(false);
+      message.error("Duplication error. Login cannot be duplicate");
+    }
   };
 
   return (
