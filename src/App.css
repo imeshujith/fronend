@@ -1,94 +1,111 @@
-@import '~antd/dist/antd.css';
+@color_1: white;
+@color_2: #61dafb;
+@background_color_1: #282c34;
 
+@import "~antd/dist/antd.css";
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 @media (max-width: 767px) {
-    body {
-        font-size: 18px !important;
+  body {
+    font-size: 18px !important;
+  }
+
+  .barsMenu {
+    display: inline-block;
+  }
+
+  .ant-layout-sider {
+    display: none;
+  }
+
+  .ant-layout-header {
+    display: inline;
+    padding: 0px;
+  }
+
+  .logo {
+    display: none;
+
+    a {
+      margin-left: -20px;
+      padding: 10px 20px;
     }
-    .barsMenu {
-        display: inline-block;
+  }
+
+  .menuCon {
+    .ant-menu-item {
+      padding: 1px 20px;
     }
 
-    .ant-layout-sider {
-        display: none;
+    .ant-menu-submenu-title {
+      padding: 1px 20px;
     }
-
-    .ant-layout-header {
-        display: inline;
-    }
-
-    .logo a {
-        margin-left: -20px;
-    }
-
-    .menuCon .ant-menu-item,
-    .menuCon .ant-menu-submenu-title {
-        padding: 1px 20px;
-    }
-
-    .logo a {
-        padding: 10px 20px;
-    }
+  }
 }
 
 @media (min-width: 767px) {
-    .ant-layout-header {
-        display: none;
-    }
+  .ant-layout-header {
+    display: none;
+  }
 }
 
-.ant-layout-header .logo {
+.ant-layout-header {
+  .logo {
     float: left;
     width: 120px;
     height: 31px;
     margin: 16px 24px 16px 0;
     background: rgba(255, 255, 255, 0.3);
+  }
 }
 
-.ant-row-rtl #components-layout-demo-top-side-2 .logo {
-    float: right;
-    margin: 16px 0 16px 24px;
+.ant-row-rtl {
+  #components-layout-demo-top-side-2 {
+    .logo {
+      float: right;
+      margin: 16px 0 16px 24px;
+    }
+  }
 }
 
 .site-layout-background {
-    background: #fff;
+  background: #fff;
 }
 
 .App {
-    text-align: center;
+  text-align: center;
 }
 
 .App-logo {
-    height: 40vmin;
-    pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+  height: 40vmin;
+  pointer-events: none;
 }
 
 .App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+  background-color: @background_color_1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: @color_1;
 }
 
 .App-link {
-    color: #61dafb;
+  color: @color_2;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }

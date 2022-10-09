@@ -9,10 +9,10 @@ const SidebarComponent: FC = () => {
       <MenuComponent
         theme="light"
         mode="inline"
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={["/"]}
         items={[
           {
-            key: `1`,
+            key: `/`,
             icon: <DashboardOutlined />,
             label: `Dashboard`,
           },

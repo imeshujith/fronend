@@ -1,12 +1,15 @@
-import { Button, Form, Input, Modal, ModalProps, Space } from "antd";
+import { Button, Form, Input, message, Modal, ModalProps, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { Employee } from "../../types/Types";
+import { fetchEmployees, updateEmployeeService } from "./Api";
 
 interface Props extends ModalProps {
   isVisibleEditModal: boolean;
   setIsVisibleEditModal: (value: boolean) => void;
   updateEmployee: Employee | undefined;
-  setUpdateEmployee: (value: Employee) => void;
+  setUpdateEmployee: (value: any) => void;
+  dataSource: Employee[];
+  setEmployees: (value: Employee[]) => void;
 }
 
 const EditModal: React.FC<Props> = ({
@@ -14,6 +17,8 @@ const EditModal: React.FC<Props> = ({
   setIsVisibleEditModal,
   updateEmployee,
   setUpdateEmployee,
+  dataSource,
+  setEmployees,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [form] = Form.useForm();
@@ -31,8 +36,14 @@ const EditModal: React.FC<Props> = ({
     setIsVisibleEditModal(false);
   };
 
-  const onFinish = () => {
-    console.log("hi");
+  const onFinish = async () => {
+    const updateResponse: any = await updateEmployeeService(updateEmployee);
+    if (updateResponse.status == 204) {
+      const allEmployeesResponse: any = await fetchEmployees();
+      setEmployees(allEmployeesResponse.data);
+      setIsModalOpen(false);
+      message.success("Employee updated successful");
+    }
   };
 
   return (
@@ -43,7 +54,9 @@ const EditModal: React.FC<Props> = ({
         onOk={handleOk}
         footer={
           <Space>
-            <Button type="default">Cancel</Button>
+            <Button type="default" onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </Button>
             <Button
               type="primary"
               htmlType="submit"
@@ -73,7 +86,14 @@ const EditModal: React.FC<Props> = ({
               },
             ]}
           >
-            <Input />
+            <Input
+              onChange={(event) =>
+                setUpdateEmployee({
+                  ...updateEmployee,
+                  login: event.target.value,
+                })
+              }
+            />
           </Form.Item>
           <Form.Item
             label="Name"
@@ -85,7 +105,14 @@ const EditModal: React.FC<Props> = ({
               },
             ]}
           >
-            <Input />
+            <Input
+              onChange={(event) =>
+                setUpdateEmployee({
+                  ...updateEmployee,
+                  name: event.target.value,
+                })
+              }
+            />
           </Form.Item>
           <Form.Item
             label="Salary"
@@ -101,7 +128,14 @@ const EditModal: React.FC<Props> = ({
               },
             ]}
           >
-            <Input />
+            <Input
+              onChange={(event) =>
+                setUpdateEmployee({
+                  ...updateEmployee,
+                  salary: event.target.value,
+                })
+              }
+            />
           </Form.Item>
         </Form>
       </Modal>

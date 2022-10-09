@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Menu, MenuProps } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const MenuComponent: FC<MenuProps> = ({
   theme,
@@ -8,6 +9,8 @@ const MenuComponent: FC<MenuProps> = ({
   items,
   ...rest
 }) => {
+  const navigate = useNavigate();
+
   return (
     <>
       <Menu
@@ -15,7 +18,8 @@ const MenuComponent: FC<MenuProps> = ({
         mode={mode}
         defaultSelectedKeys={defaultSelectedKeys}
         items={items}
-      />
+        onClick={({ key }) => navigate(key)}
+      ></Menu>
     </>
   );
 };

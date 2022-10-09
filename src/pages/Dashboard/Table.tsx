@@ -1,20 +1,28 @@
 import React, { FC, useState } from "react";
 import { Button, message, Modal, Space, Table, TableProps } from "antd";
-import { Employee } from "../types/Types";
+import { Employee } from "../../types/Types";
 import { ColumnsType } from "antd/es/table";
 import {
   EditOutlined,
   DeleteOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { deleteEmployee } from "../pages/Dashboard/Api";
-import EditModal from "../pages/Dashboard/EditModal";
+import { deleteEmployee } from "./Api";
+import EditModal from "./EditModal";
+import FilterModal from "./FilterModal";
+import UploadModal from "./UploadModal";
 
 interface Props extends TableProps<any> {
   dataSource: Employee[];
   setEmployees: (value: Employee[]) => void;
   isLoading: boolean;
   setIsLoading: (value: boolean) => void;
+  openFilterModal: boolean;
+  setOpenFilterModal: (value: boolean) => void;
+  openUploadModal: boolean;
+  setOpenUploadModal: (value: boolean) => void;
+  setIsReset: (value: boolean) => void;
+  isReset: boolean;
 }
 
 const TableComponent: FC<Props> = ({
@@ -22,6 +30,12 @@ const TableComponent: FC<Props> = ({
   setEmployees,
   isLoading,
   setIsLoading,
+  openFilterModal,
+  setOpenFilterModal,
+  openUploadModal,
+  setOpenUploadModal,
+  isReset,
+  setIsReset,
   ...rest
 }) => {
   const [open, setOpen] = useState<boolean>(false);
@@ -123,6 +137,7 @@ const TableComponent: FC<Props> = ({
           showSizeChanger: true,
           pageSizeOptions: ["5", "10", "15"],
         }}
+        rowKey="id"
       />
       <Modal
         title="Modal"
@@ -137,6 +152,20 @@ const TableComponent: FC<Props> = ({
         setIsVisibleEditModal={setIsEditModalVisible}
         updateEmployee={updateEmployee}
         setUpdateEmployee={setUpdateEmployee}
+        dataSource={dataSource}
+        setEmployees={setEmployees}
+      />
+      <FilterModal
+        dataSource={dataSource}
+        setEmployees={setEmployees}
+        openFilterModal={openFilterModal}
+        setOpenFilterModal={setOpenFilterModal}
+      />
+      <UploadModal
+        dataSource={dataSource}
+        setEmployees={setEmployees}
+        openUploadModal={openUploadModal}
+        setOpenUploadModal={setOpenUploadModal}
       />
     </div>
   );

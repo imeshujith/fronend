@@ -12,10 +12,10 @@ const HeaderComponent: FC = () => {
       <MenuComponent
         theme="dark"
         mode="horizontal"
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={["/"]}
         items={[
           {
-            key: `1`,
+            key: `/`,
             icon: <DashboardOutlined />,
             label: `Dashboard`,
           },
