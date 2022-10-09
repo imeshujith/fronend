@@ -1,13 +1,60 @@
-import React, { FC } from "react";
-import { Button, Table, TableProps } from "antd";
+import React, { FC, useState } from "react";
+import { Button, message, Modal, Space, Table, TableProps } from "antd";
 import { Employee } from "../types/Types";
 import { ColumnsType } from "antd/es/table";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
+import { deleteEmployee } from "../pages/Dashboard/Api";
+import EditModal from "../pages/Dashboard/EditModal";
 
 interface Props extends TableProps<any> {
   dataSource: Employee[];
+  setEmployees: (value: Employee[]) => void;
+  isLoading: boolean;
+  setIsLoading: (value: boolean) => void;
 }
 
-const TableComponent: FC<Props> = ({ dataSource, ...rest }) => {
+const TableComponent: FC<Props> = ({
+  dataSource,
+  setEmployees,
+  isLoading,
+  setIsLoading,
+  ...rest
+}) => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
+  const [updateEmployee, setUpdateEmployee] = useState<Employee>();
+
+  const handleConfirm = () => {};
+
+  const hideModal = () => {
+    setOpen(false);
+  };
+
+  const confirm = async (id: string) => {
+    Modal.confirm({
+      title: "Warning!",
+      icon: <ExclamationCircleOutlined />,
+      content: "Are you sure, Do you want to delete this record?",
+      okText: "Delete",
+      async onOk() {
+        setIsLoading(true);
+        const response: any = await deleteEmployee(id);
+        if (response.status === 204) {
+          setEmployees(
+            dataSource.filter((element: Employee) => element.id != id)
+          );
+          setIsLoading(false);
+          message.success("Employee deleted successful");
+        }
+      },
+      cancelText: "Cancel",
+    });
+  };
+
   const columns: ColumnsType<Employee> = [
     {
       title: "Id",
@@ -45,7 +92,24 @@ const TableComponent: FC<Props> = ({ dataSource, ...rest }) => {
     {
       title: "Action",
       key: "action",
-      render: (text, record) => <Button type="primary">Action</Button>,
+      render: (_: any, record) => (
+        <Space>
+          <Button
+            type="primary"
+            icon={<EditOutlined />}
+            onClick={() => {
+              setUpdateEmployee(record);
+              setIsEditModalVisible(!isEditModalVisible);
+            }}
+          />
+          <Button
+            type="primary"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => confirm(record.id)}
+          />
+        </Space>
+      ),
     },
   ];
 
@@ -59,6 +123,20 @@ const TableComponent: FC<Props> = ({ dataSource, ...rest }) => {
           showSizeChanger: true,
           pageSizeOptions: ["5", "10", "15"],
         }}
+      />
+      <Modal
+        title="Modal"
+        open={open}
+        onOk={handleConfirm}
+        onCancel={hideModal}
+        okText="Delete"
+        cancelText="Cancel"
+      ></Modal>
+      <EditModal
+        isVisibleEditModal={isEditModalVisible}
+        setIsVisibleEditModal={setIsEditModalVisible}
+        updateEmployee={updateEmployee}
+        setUpdateEmployee={setUpdateEmployee}
       />
     </div>
   );

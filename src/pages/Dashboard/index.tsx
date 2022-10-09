@@ -35,7 +35,12 @@ const Dashboard: FC = () => {
         setIsLoading={setIsLoading}
       />
       <Skeleton active loading={isLoading}>
-        <TableComponent dataSource={employees} />
+        <TableComponent
+          dataSource={employees}
+          setEmployees={setEmployees}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        />
       </Skeleton>
     </Card>
   );

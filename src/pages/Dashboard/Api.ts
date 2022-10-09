@@ -12,3 +12,18 @@ export const fetchEmployees = () => {
     }
   });
 };
+
+export const deleteEmployee = (id: string) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await axios.delete<AxiosResponse>(
+        `/api/employees/${id}`
+      );
+      if (response) {
+        resolve(response);
+      }
+    } catch (error) {
+      reject();
+    }
+  });
+};
