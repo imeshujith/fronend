@@ -1,10 +1,10 @@
-export interface fileObject {
+export interface Employee {
   id: string;
   login: string;
   name: string;
   salary: number;
 }
 
-export interface fileObjectArray {
-  data: fileObject[];
+export interface Employees {
+  data: Employee[];
 }
